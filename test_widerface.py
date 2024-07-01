@@ -36,16 +36,16 @@ def scale_coords_landmarks(img1_shape, coords, img0_shape, ratio_pad=None):
     coords[:, [1, 3, 5, 7, 9]] -= pad[1]  # y padding
     coords[:, :10] /= gain
     #clip_coords(coords, img0_shape)
-    coords[:, 0].clamp_(0, img0_shape[1])  # x1
-    coords[:, 1].clamp_(0, img0_shape[0])  # y1
-    coords[:, 2].clamp_(0, img0_shape[1])  # x2
-    coords[:, 3].clamp_(0, img0_shape[0])  # y2
-    coords[:, 4].clamp_(0, img0_shape[1])  # x3
-    coords[:, 5].clamp_(0, img0_shape[0])  # y3
-    coords[:, 6].clamp_(0, img0_shape[1])  # x4
-    coords[:, 7].clamp_(0, img0_shape[0])  # y4
-    coords[:, 8].clamp_(0, img0_shape[1])  # x5
-    coords[:, 9].clamp_(0, img0_shape[0])  # y5
+    coords[:, 0].clamp_(0, img0_shape[1] - 1)  # x1
+    coords[:, 1].clamp_(0, img0_shape[0] - 1)  # y1
+    coords[:, 2].clamp_(0, img0_shape[1] - 1)  # x2
+    coords[:, 3].clamp_(0, img0_shape[0] - 1)  # y2
+    coords[:, 4].clamp_(0, img0_shape[1] - 1)  # x3
+    coords[:, 5].clamp_(0, img0_shape[0] - 1)  # y3
+    coords[:, 6].clamp_(0, img0_shape[1] - 1)  # x4
+    coords[:, 7].clamp_(0, img0_shape[0] - 1)  # y4
+    coords[:, 8].clamp_(0, img0_shape[1] - 1)  # x5
+    coords[:, 9].clamp_(0, img0_shape[0] - 1)  # y5
     return coords
 
 def show_results(img, xywh, conf, landmarks, class_num):
