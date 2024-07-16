@@ -40,7 +40,7 @@ class Conv(nn.Module):
         super(Conv, self).__init__()
         self.conv = nn.Conv2d(c1, c2, k, s, autopad(k, p), groups=g, bias=False)
         self.bn = nn.BatchNorm2d(c2)
-        self.act = nn.SiLU() if act is True else (act if isinstance(act, nn.Module) else nn.Identity())
+        self.act = nn.LeakyReLU(0.1,inplace=True) if act is True else (act if isinstance(act, nn.Module) else nn.Identity())
         #self.act = self.act = nn.LeakyReLU(0.1, inplace=True) if act is True else (act if isinstance(act, nn.Module) else nn.Identity())
 
     def forward(self, x):
@@ -127,7 +127,7 @@ class ShuffleV2Block(nn.Module):
                 nn.BatchNorm2d(inp),
                 nn.Conv2d(inp, branch_features, kernel_size=1, stride=1, padding=0, bias=False),
                 nn.BatchNorm2d(branch_features),
-                nn.SiLU(),
+                nn.LeakyReLU(0.1,inplace=True),
             )
         else:
             self.branch1 = nn.Sequential()
@@ -135,12 +135,12 @@ class ShuffleV2Block(nn.Module):
         self.branch2 = nn.Sequential(
             nn.Conv2d(inp if (self.stride > 1) else branch_features, branch_features, kernel_size=1, stride=1, padding=0, bias=False),
             nn.BatchNorm2d(branch_features),
-            nn.SiLU(),
+            nn.LeakyReLU(0.1,inplace=True),
             self.depthwise_conv(branch_features, branch_features, kernel_size=3, stride=self.stride, padding=1),
             nn.BatchNorm2d(branch_features),
             nn.Conv2d(branch_features, branch_features, kernel_size=1, stride=1, padding=0, bias=False),
             nn.BatchNorm2d(branch_features),
-            nn.SiLU(),
+            nn.LeakyReLU(0.1,inplace=True),
         )
 
     @staticmethod
@@ -180,7 +180,7 @@ class BlazeBlock(nn.Module):
                 nn.BatchNorm2d(out_channels),
             )
 
-        self.relu = nn.SiLU(inplace=True)
+        self.relu = nn.LeakyReLU(0.1,inplace=True)
 
     def forward(self, x):
         branch1 = self.branch1(x)
@@ -202,7 +202,7 @@ class DoubleBlazeBlock(nn.Module):
             nn.BatchNorm2d(in_channels),
             nn.Conv2d(in_channels=in_channels, out_channels=mid_channels, kernel_size=1, stride=1),
             nn.BatchNorm2d(mid_channels),
-            nn.SiLU(inplace=True),
+            nn.LeakyReLU(0.1,inplace=True),
             nn.Conv2d(in_channels=mid_channels, out_channels=mid_channels, kernel_size=5, stride=1,padding=2),
             nn.BatchNorm2d(mid_channels),
             nn.Conv2d(in_channels=mid_channels, out_channels=out_channels, kernel_size=1, stride=1),
@@ -216,7 +216,7 @@ class DoubleBlazeBlock(nn.Module):
                 nn.BatchNorm2d(out_channels),
             )
 
-        self.relu = nn.SiLU(inplace=True)
+        self.relu = nn.LeakyReLU(0.1,inplace=True)
 
     def forward(self, x):
         branch1 = self.branch1(x)
