@@ -44,7 +44,7 @@ def wider2face(root, phase='val', ignore_small=0):
                 if box[2] < ignore_small or box[3] < ignore_small:
                     continue
                 box = convert((width, height), xywh2xxyy(box))
-                label = '0 {} {} {} {} -1 -1 -1 -1 -1 -1 -1 -1 -1 -1'.format(round(box[0], 4), round(box[1], 4),
+                label = '0 {} {} {} {}'.format(round(box[0], 4), round(box[1], 4),
                                                                              round(box[2], 4), round(box[3], 4))
                 data[path].append(label)
     return data
@@ -61,6 +61,7 @@ if __name__ == '__main__':
         exit(1)
 
     root_path = sys.argv[1]
+    print("print path :",os.path.join(root_path, 'val', 'label.txt'),"\n")
     if not os.path.isfile(os.path.join(root_path, 'val', 'label.txt')):
         print('Missing label.txt file.')
         exit(1)

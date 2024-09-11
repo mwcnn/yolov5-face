@@ -144,7 +144,12 @@ def compute_loss(p, targets, model):  # predictions, targets, model
         n = b.shape[0]  # number of targets
         if n:
             nt += n  # cumulative targets
-            ps = pi[b, a, gj, gi]  # prediction subset corresponding to targets
+            print("b :",b.shape)
+            b_long = b.long()
+            a_long = a.long()
+            gj_long = gj.long()
+            gi_long =gi.long()
+            ps = pi[b_long, a_long, gj_long, gi_long]  # prediction subset corresponding to targets
 
             # Regression
             pxy = ps[:, :2].sigmoid() * 2. - 0.5
@@ -154,7 +159,7 @@ def compute_loss(p, targets, model):  # predictions, targets, model
             lbox += (1.0 - iou).mean()  # iou loss
 
             # Objectness
-            tobj[b, a, gj, gi] = (1.0 - model.gr) + model.gr * iou.detach().clamp(0).type(tobj.dtype)  # iou ratio
+            tobj[b_long, a_long, gj_long, gi_long] = (1.0 - model.gr) + model.gr * iou.detach().clamp(0).type(tobj.dtype)  # iou ratio
 
             # Classification
             if model.nc > 1:  # cls loss (only if multiple classes)
@@ -237,10 +242,10 @@ def build_targets(p, targets, model):
             offsets = 0
 
         # Define
-        b, c = t[:, :2].long().T  # image, class
+        b, c = t[:, :2].float().T  # image, class
         gxy = t[:, 2:4]  # grid xy
         gwh = t[:, 4:6]  # grid wh
-        gij = (gxy - offsets).long()
+        gij = (gxy - offsets).float()
         gi, gj = gij.T  # grid xy indices
 
         # Append
