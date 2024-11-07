@@ -1,0 +1,30 @@
+{
+    // 使用 IntelliSense 了解相关属性。 
+    // 悬停以查看现有属性的描述。
+    // 欲了解更多信息，请访问: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Python train2yolo",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "data/train2yolo.py",
+            "args": [
+                "/data1/zhn/dataset/widerface/train",
+                "/data1/zhn/dataset/widerface_yolo/train",
+            ],
+            "console": "integratedTerminal"
+        },
+        {
+            "name": "Python val2yolo",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "data/val2yolo.py",
+            "args": [
+                "/data1/zhn/dataset/widerface",
+                "/data1/zhn/dataset/widerface_yolo/val",
+            ],
+            "console": "integratedTerminal"
+        }
+    ]
+}
