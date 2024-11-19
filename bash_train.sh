@@ -1,0 +1,1 @@
+CUDA_VISIBLE_DEVICES="0,3,4,5" python3 train.py --data data/widerface.yaml --cfg models/yolov5s.yaml --weights '/data1/zhn/dataset/yolov5s-face.pt'
